@@ -1,0 +1,28 @@
+[experiment]
+name = "ab-model"
+description = "对比不同生成模型（需配置 RAG_EVAL_API_KEY 后以 live 模式运行）"
+dataset = "data/testsets/suite.jsonl"
+baseline = "configs/baseline.toml"
+seed = 42
+
+[[experiment.variants]]
+name = "deepseek-chat"
+description = "DeepSeek 官方接口"
+[experiment.variants.overrides.generate]
+provider = "openai"
+model = "deepseek-chat"
+base_url = "https://api.deepseek.com/v1"
+
+[[experiment.variants]]
+name = "qwen-plus"
+description = "阿里云百炼 OpenAI 兼容接口"
+[experiment.variants.overrides.generate]
+provider = "openai"
+model = "qwen-plus"
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+[[experiment.variants]]
+name = "offline-extractive"
+description = "离线抽取式生成器（无 API Key 时的对照组）"
+[experiment.variants.overrides.generate]
+provider = "offline"

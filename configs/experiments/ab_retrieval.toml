@@ -1,0 +1,31 @@
+[experiment]
+name = "ab-retrieval"
+description = "对比 TopK、混合召回与重排序的组合对上下文精确率/召回率与延迟的影响"
+dataset = "data/testsets/suite.jsonl"
+baseline = "configs/baseline.toml"
+seed = 42
+
+[[experiment.variants]]
+name = "baseline-hybrid-rerank"
+description = "基线：混合召回 candidate 24，重排序 top_n=4"
+
+[[experiment.variants]]
+name = "dense-only-top3"
+description = "仅向量召回，TopK=3，关闭重排序（低延迟场景）"
+[experiment.variants.overrides.retrieve]
+top_k = 3
+candidate_k = 3
+hybrid = false
+[experiment.variants.overrides.rerank]
+provider = "none"
+top_n = 3
+
+[[experiment.variants]]
+name = "hybrid-top10-no-rerank"
+description = "混合召回 TopK=10，关闭重排序（高召回场景）"
+[experiment.variants.overrides.retrieve]
+top_k = 10
+candidate_k = 30
+[experiment.variants.overrides.rerank]
+provider = "none"
+top_n = 10

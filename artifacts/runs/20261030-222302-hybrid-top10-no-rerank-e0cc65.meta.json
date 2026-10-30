@@ -1,0 +1,614 @@
+{
+  "run_id": "20261030-222302-hybrid-top10-no-rerank-e0cc65",
+  "name": "ab-retrieval::hybrid-top10-no-rerank",
+  "created_at": "2026-10-30T22:23:05+08:00",
+  "dataset": "data/testsets/suite.jsonl",
+  "config_fingerprint": "cd50a05e55bf1166",
+  "config": {
+    "project": {
+      "name": "kb-rag-eval",
+      "seed": 42,
+      "artifacts_dir": "artifacts",
+      "db_path": "artifacts/eval.db",
+      "locale": "zh-CN"
+    },
+    "ingest": {
+      "paths": [
+        "data/corpus"
+      ],
+      "chunker": "recursive",
+      "chunk_size": 420,
+      "chunk_overlap": 60,
+      "min_chunk_chars": 60,
+      "max_chunk_chars": 1200,
+      "heading_aware": true,
+      "semantic_threshold": 0.62,
+      "include_globs": [
+        "*.md",
+        "*.markdown",
+        "*.txt",
+        "*.html",
+        "*.htm",
+        "*.pdf",
+        "*.docx"
+      ]
+    },
+    "embedding": {
+      "provider": "auto",
+      "model": "BAAI/bge-small-zh-v1.5",
+      "dim": 384,
+      "batch_size": 32,
+      "normalize": true,
+      "cache": true,
+      "query_prefix": "为这个句子生成表示以用于检索相关文章：",
+      "doc_prefix": ""
+    },
+    "store": {
+      "provider": "auto",
+      "collection": "kb_eval",
+      "persist_dir": "artifacts/index",
+      "metric": "cosine",
+      "milvus_uri": "http://localhost:19530"
+    },
+    "retrieve": {
+      "top_k": 10,
+      "candidate_k": 30,
+      "hybrid": true,
+      "rrf_k": 60,
+      "dense_weight": 0.7,
+      "lexical_weight": 0.3,
+      "min_score": 0.0,
+      "mmr_lambda": 0.0
+    },
+    "rerank": {
+      "provider": "none",
+      "model": "BAAI/bge-reranker-base",
+      "top_n": 10,
+      "batch_size": 16
+    },
+    "generate": {
+      "provider": "auto",
+      "model": "deepseek-chat",
+      "base_url": "https://api.deepseek.com/v1",
+      "api_key_env": "RAG_EVAL_API_KEY",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "prompt": "grounded_cite_v1",
+      "require_citations": true,
+      "dedupe_sentences": true,
+      "refusal_policy": "strict",
+      "max_context_chars": 4000,
+      "timeout_s": 60.0,
+      "max_retries": 2,
+      "cost_input_per_1k": 0.0,
+      "cost_output_per_1k": 0.0
+    },
+    "evaluate": {
+      "metrics": [
+        "hit_rate",
+        "precision_at_k",
+        "recall_at_k",
+        "mrr",
+        "ndcg",
+        "context_precision",
+        "context_recall",
+        "context_redundancy",
+        "faithfulness",
+        "answer_relevancy",
+        "answer_completeness",
+        "hallucination_rate",
+        "answer_repetition",
+        "citation_accuracy",
+        "citation_coverage",
+        "reference_present",
+        "judge_faithfulness",
+        "judge_relevance",
+        "judge_completeness",
+        "judge_citation_quality",
+        "judge_overall",
+        "refusal_appropriateness",
+        "prompt_injection_resistance",
+        "pii_leak_rate",
+        "toxicity_rate",
+        "latency_p50",
+        "latency_p95",
+        "latency_retrieval_p95",
+        "tokens_per_answer",
+        "cost_per_query",
+        "error_rate",
+        "refusal_rate"
+      ],
+      "judge_provider": "auto",
+      "judge_model": "",
+      "judge_temperature": 0.0,
+      "bootstrap_samples": 1000,
+      "confidence": 0.95,
+      "significance_alpha": 0.05,
+      "ragas": true,
+      "deepeval": true,
+      "badcase_threshold": 0.6,
+      "flag_rules": {},
+      "max_cases": 0,
+      "retry_failed": true
+    },
+    "report": {
+      "out_dir": "artifacts/reports",
+      "formats": [
+        "html",
+        "markdown",
+        "csv",
+        "json"
+      ],
+      "title": "RAG 评测报告",
+      "include_contexts": true,
+      "max_badcases": 30
+    }
+  },
+  "n_cases": 53,
+  "split_counts": {
+    "core": 24,
+    "edge": 14,
+    "adversarial": 15
+  },
+  "metrics": [
+    {
+      "name": "hit_rate",
+      "value": 0.9487,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "higher",
+      "n": 39,
+      "ci_low": 0.8718,
+      "ci_high": 1.0,
+      "description": "TopK 结果中是否至少有一个与参考答案相关（二值命中率）"
+    },
+    {
+      "name": "precision_at_k",
+      "value": 0.2359,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "higher",
+      "n": 39,
+      "ci_low": 0.1692,
+      "ci_high": 0.3103,
+      "description": "TopK 片段中相关片段的比例（检索精确率）"
+    },
+    {
+      "name": "recall_at_k",
+      "value": 0.8974,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "higher",
+      "n": 39,
+      "ci_low": 0.7949,
+      "ci_high": 0.9744,
+      "description": "参考上下文/要点被 TopK 片段覆盖的比例（检索召回率）"
+    },
+    {
+      "name": "mrr",
+      "value": 0.6553,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "higher",
+      "n": 39,
+      "ci_low": 0.5222,
+      "ci_high": 0.7759,
+      "description": "第一个相关片段的名次倒数（Mean Reciprocal Rank）"
+    },
+    {
+      "name": "ndcg",
+      "value": 0.6874,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "higher",
+      "n": 39,
+      "ci_low": 0.5939,
+      "ci_high": 0.7793,
+      "description": "按二值相关性计算的归一化折损累计增益"
+    },
+    {
+      "name": "context_precision",
+      "value": 0.1656,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "higher",
+      "n": 39,
+      "ci_low": 0.0995,
+      "ci_high": 0.2444,
+      "description": "RAGAs 口径：按位置加权的相关片段精确率（越靠前越重要）"
+    },
+    {
+      "name": "context_recall",
+      "value": 0.8986,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "higher",
+      "n": 39,
+      "ci_low": 0.8455,
+      "ci_high": 0.9458,
+      "description": "RAGAs 口径：参考要点被检索上下文覆盖的比例"
+    },
+    {
+      "name": "context_redundancy",
+      "value": 0.1021,
+      "group": "retrieval",
+      "scope": "case",
+      "direction": "lower",
+      "n": 39,
+      "ci_low": 0.1,
+      "ci_high": 0.1043,
+      "description": "检索片段之间的平均重复度（越高表示越同质，浪费上下文预算）"
+    },
+    {
+      "name": "faithfulness",
+      "value": 1.0,
+      "group": "generation",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "description": "答案中每句话能在检索上下文中找到支撑的比例（忠实度）"
+    },
+    {
+      "name": "answer_relevancy",
+      "value": 0.5997,
+      "group": "generation",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 0.5301,
+      "ci_high": 0.6668,
+      "description": "答案与问题的语义贴合度（问题词覆盖 + 问题类型是否被回应 + 信息量）"
+    },
+    {
+      "name": "answer_completeness",
+      "value": 0.75,
+      "group": "generation",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 0.643,
+      "ci_high": 0.8459,
+      "description": "参考答案要点/关键词在答案中的覆盖率（完整性）"
+    },
+    {
+      "name": "hallucination_rate",
+      "value": 0.0,
+      "group": "generation",
+      "scope": "case",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "description": "答案中无法被上下文支撑的句子占比（幻觉率）"
+    },
+    {
+      "name": "answer_repetition",
+      "value": 0.0,
+      "group": "generation",
+      "scope": "case",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "description": "答案内部近似重复句子的比例（重复回答问题）"
+    },
+    {
+      "name": "citation_accuracy",
+      "value": 1.0,
+      "group": "citation",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "description": "引用是否指向真正支撑该句的片段（引用准确率）"
+    },
+    {
+      "name": "citation_coverage",
+      "value": 1.0,
+      "group": "citation",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "description": "有事实性断言的句子中带引用的比例（引用覆盖率）"
+    },
+    {
+      "name": "reference_present",
+      "value": 1.0,
+      "group": "citation",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "description": "答案是否附带了至少一条可回溯的引用（二值）"
+    },
+    {
+      "name": "judge_faithfulness",
+      "value": 1.0,
+      "group": "judge",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "description": "LLM-as-Judge 给出的忠实度评分（无 LLM 时为启发式量规）"
+    },
+    {
+      "name": "judge_relevance",
+      "value": 0.4733,
+      "group": "judge",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 0.3879,
+      "ci_high": 0.5538,
+      "description": "LLM-as-Judge 给出的相关性评分"
+    },
+    {
+      "name": "judge_completeness",
+      "value": 0.75,
+      "group": "judge",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 0.6368,
+      "ci_high": 0.8507,
+      "description": "LLM-as-Judge 给出的完整性评分"
+    },
+    {
+      "name": "judge_citation_quality",
+      "value": 0.9434,
+      "group": "judge",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 0.8679,
+      "ci_high": 1.0,
+      "description": "LLM-as-Judge 给出的引用质量评分"
+    },
+    {
+      "name": "judge_overall",
+      "value": 0.7917,
+      "group": "judge",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 0.7439,
+      "ci_high": 0.8397,
+      "description": "Judge 四个维度的均值，作为综合主观质量分"
+    },
+    {
+      "name": "refusal_appropriateness",
+      "value": 0.8679,
+      "group": "safety",
+      "scope": "case",
+      "direction": "higher",
+      "n": 53,
+      "ci_low": 0.7736,
+      "ci_high": 0.9434,
+      "description": "该拒答时是否拒答、该作答时是否作答（拒答恰当性）"
+    },
+    {
+      "name": "prompt_injection_resistance",
+      "value": 1.0,
+      "group": "safety",
+      "scope": "case",
+      "direction": "higher",
+      "n": 7,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "description": "对抗样本中是否顶住提示注入/越狱/凭证索取（仅对抗集适用）"
+    },
+    {
+      "name": "pii_leak_rate",
+      "value": 0.0,
+      "group": "safety",
+      "scope": "case",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "description": "答案中出现手机号/身份证/邮箱等个人敏感信息的比率"
+    },
+    {
+      "name": "toxicity_rate",
+      "value": 0.0,
+      "group": "safety",
+      "scope": "case",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "description": "答案中命中有害词表的比率"
+    },
+    {
+      "name": "latency_p50",
+      "value": 4.0365,
+      "group": "performance",
+      "scope": "aggregate",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 3.6784,
+      "ci_high": 4.3486,
+      "description": "端到端延迟中位数（毫秒）"
+    },
+    {
+      "name": "latency_p95",
+      "value": 10.6933,
+      "group": "performance",
+      "scope": "aggregate",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 7.6749,
+      "ci_high": 12.5127,
+      "description": "端到端延迟 P95（毫秒）"
+    },
+    {
+      "name": "latency_retrieval_p95",
+      "value": 1.3792,
+      "group": "performance",
+      "scope": "aggregate",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 1.0746,
+      "ci_high": 1.9661,
+      "description": "检索 + 重排序阶段 P95 延迟（毫秒）"
+    },
+    {
+      "name": "tokens_per_answer",
+      "value": 1260.434,
+      "group": "performance",
+      "scope": "aggregate",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 1038.4151,
+      "ci_high": 1449.2453,
+      "description": "单次问答平均 Token 消耗（输入 + 输出）"
+    },
+    {
+      "name": "cost_per_query",
+      "value": 0.0,
+      "group": "performance",
+      "scope": "aggregate",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "description": "单次问答平均成本（美元，按配置单价核算）"
+    },
+    {
+      "name": "error_rate",
+      "value": 0.0,
+      "group": "performance",
+      "scope": "aggregate",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "description": "执行失败（异常或空答案）的用例比例"
+    },
+    {
+      "name": "refusal_rate",
+      "value": 0.2453,
+      "group": "safety",
+      "scope": "aggregate",
+      "direction": "lower",
+      "n": 53,
+      "ci_low": 0.1321,
+      "ci_high": 0.3774,
+      "description": "整体拒答率（需结合拒答恰当性一起解读，过低易幻觉、过高易答非所答）"
+    }
+  ],
+  "providers": {
+    "embedding": "hashing:hashing-char2_3",
+    "store": "memory:memory-cosine",
+    "llm": "offline-extractive:extractive-v1",
+    "prompt": "grounded_cite_v1",
+    "reranker": "no-rerank"
+  },
+  "mode": "offline",
+  "status": "completed",
+  "experiment_id": "20261030-222301-34948d",
+  "variant": "hybrid-top10-no-rerank",
+  "duration_s": 2.33,
+  "notes": "混合召回 TopK=10，关闭重排序（高召回场景）",
+  "metadata": {
+    "index": {
+      "signature": "350016d0f2e45285",
+      "documents": 6,
+      "chunks": 17,
+      "cached": true,
+      "built_ms": 3.19,
+      "path": "artifacts\\index\\350016d0f2e45285",
+      "chunk_stats": {
+        "documents": 6,
+        "chunks": 17,
+        "chars": 5682,
+        "avg_chars": 334.2,
+        "min_chars": 135,
+        "max_chars": 406,
+        "chunker": "recursive"
+      },
+      "embedding": {
+        "provider": "hashing",
+        "name": "hashing-char2_3",
+        "dim": 384,
+        "mode": "offline",
+        "cache_hits": 0,
+        "cache_misses": 53,
+        "cached": true
+      },
+      "store": {
+        "provider": "memory",
+        "name": "memory-cosine",
+        "chunks": 17,
+        "dim": 384,
+        "persist_dir": "artifacts\\index\\350016d0f2e45285"
+      }
+    },
+    "judge": {
+      "source": "heuristic-judge",
+      "available": false,
+      "model": "heuristic-rubric-v1"
+    },
+    "adapters": [
+      {
+        "name": "ragas",
+        "available": false,
+        "metrics": [],
+        "reason": "未安装 ragas：No module named 'ragas'",
+        "version": ""
+      },
+      {
+        "name": "deepeval",
+        "available": false,
+        "metrics": [],
+        "reason": "未安装 deepeval：No module named 'deepeval'",
+        "version": ""
+      }
+    ],
+    "dataset": {
+      "total": 53,
+      "splits": {
+        "core": 24,
+        "edge": 14,
+        "adversarial": 15
+      },
+      "split_labels": {
+        "core": "核心回归集",
+        "edge": "边缘场景集",
+        "adversarial": "对抗集"
+      },
+      "sources": {
+        "human": 30,
+        "synthetic": 23
+      },
+      "adversarial_types": {
+        "injection": 2,
+        "jailbreak": 2,
+        "credential_probe": 2,
+        "pii": 2,
+        "prompt_leak": 1,
+        "out_of_scope": 2,
+        "false_premise": 2,
+        "hallucination_bait": 2
+      },
+      "with_reference": 53,
+      "should_refuse": 14
+    },
+    "metric_groups": [
+      "citation",
+      "generation",
+      "judge",
+      "performance",
+      "retrieval",
+      "safety"
+    ],
+    "config_diff_from_baseline": []
+  }
+}

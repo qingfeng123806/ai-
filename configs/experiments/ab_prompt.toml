@@ -1,0 +1,23 @@
+[experiment]
+name = "ab-prompt"
+description = "对比三种 Prompt 模板对忠实度、完整性与引用覆盖的影响"
+dataset = "data/testsets/suite.jsonl"
+baseline = "configs/baseline.toml"
+seed = 42
+
+[[experiment.variants]]
+name = "grounded-cite"
+description = "基线：要求逐句标注引用，无依据时明确拒答"
+
+[[experiment.variants]]
+name = "concise"
+description = "简洁模式：最多 3 句，优先直接给结论"
+[experiment.variants.overrides.generate]
+prompt = "concise_v1"
+
+[[experiment.variants]]
+name = "strict-refusal"
+description = "强约束：证据不足时必须拒答，宁缺毋滥"
+[experiment.variants.overrides.generate]
+prompt = "strict_v2"
+refusal_policy = "strict"

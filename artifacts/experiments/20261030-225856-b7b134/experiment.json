@@ -1,0 +1,609 @@
+{
+  "experiment_id": "20261030-225856-b7b134",
+  "name": "unit-ab",
+  "created_at": "2026-10-30T22:58:56+08:00",
+  "dataset": "data/testsets/core.jsonl",
+  "baseline": "top3",
+  "outcomes": [
+    {
+      "name": "top3",
+      "description": "",
+      "overrides": {
+        "retrieve": {
+          "top_k": 3,
+          "candidate_k": 6
+        }
+      },
+      "error": "",
+      "run_id": "20261030-225856-top3-24e8ac",
+      "mode": "offline",
+      "metrics": [
+        {
+          "name": "hit_rate",
+          "value": 0.8,
+          "group": "retrieval",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.4,
+          "ci_high": 1.0,
+          "description": "TopK 结果中是否至少有一个与参考答案相关（二值命中率）"
+        },
+        {
+          "name": "precision_at_k",
+          "value": 0.3333,
+          "group": "retrieval",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.1333,
+          "ci_high": 0.5333,
+          "description": "TopK 片段中相关片段的比例（检索精确率）"
+        },
+        {
+          "name": "context_recall",
+          "value": 0.8549,
+          "group": "retrieval",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.7094,
+          "ci_high": 0.9574,
+          "description": "RAGAs 口径：参考要点被检索上下文覆盖的比例"
+        },
+        {
+          "name": "faithfulness",
+          "value": 1.0,
+          "group": "generation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "答案中每句话能在检索上下文中找到支撑的比例（忠实度）"
+        },
+        {
+          "name": "answer_relevancy",
+          "value": 0.6108,
+          "group": "generation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.5389,
+          "ci_high": 0.7263,
+          "description": "答案与问题的语义贴合度（问题词覆盖 + 问题类型是否被回应 + 信息量）"
+        },
+        {
+          "name": "answer_completeness",
+          "value": 0.8,
+          "group": "generation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.4,
+          "ci_high": 1.0,
+          "description": "参考答案要点/关键词在答案中的覆盖率（完整性）"
+        },
+        {
+          "name": "hallucination_rate",
+          "value": 0.0,
+          "group": "generation",
+          "scope": "case",
+          "direction": "lower",
+          "n": 5,
+          "ci_low": 0.0,
+          "ci_high": 0.0,
+          "description": "答案中无法被上下文支撑的句子占比（幻觉率）"
+        },
+        {
+          "name": "citation_accuracy",
+          "value": 1.0,
+          "group": "citation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "引用是否指向真正支撑该句的片段（引用准确率）"
+        },
+        {
+          "name": "citation_coverage",
+          "value": 1.0,
+          "group": "citation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "有事实性断言的句子中带引用的比例（引用覆盖率）"
+        },
+        {
+          "name": "refusal_appropriateness",
+          "value": 1.0,
+          "group": "safety",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "该拒答时是否拒答、该作答时是否作答（拒答恰当性）"
+        },
+        {
+          "name": "judge_overall",
+          "value": 0.8004,
+          "group": "judge",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.7161,
+          "ci_high": 0.8915,
+          "description": "Judge 四个维度的均值，作为综合主观质量分"
+        },
+        {
+          "name": "latency_p50",
+          "value": 2.4228,
+          "group": "performance",
+          "scope": "aggregate",
+          "direction": "lower",
+          "n": 5,
+          "ci_low": 2.1507,
+          "ci_high": 3.4425,
+          "description": "端到端延迟中位数（毫秒）"
+        }
+      ],
+      "n_cases": 5
+    },
+    {
+      "name": "top6",
+      "description": "",
+      "overrides": {
+        "retrieve": {
+          "top_k": 6,
+          "candidate_k": 12
+        }
+      },
+      "error": "",
+      "run_id": "20261030-225856-top6-7d1b52",
+      "mode": "offline",
+      "metrics": [
+        {
+          "name": "hit_rate",
+          "value": 1.0,
+          "group": "retrieval",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "TopK 结果中是否至少有一个与参考答案相关（二值命中率）"
+        },
+        {
+          "name": "precision_at_k",
+          "value": 0.2667,
+          "group": "retrieval",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.1667,
+          "ci_high": 0.4,
+          "description": "TopK 片段中相关片段的比例（检索精确率）"
+        },
+        {
+          "name": "context_recall",
+          "value": 0.9345,
+          "group": "retrieval",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.9012,
+          "ci_high": 0.9599,
+          "description": "RAGAs 口径：参考要点被检索上下文覆盖的比例"
+        },
+        {
+          "name": "faithfulness",
+          "value": 1.0,
+          "group": "generation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "答案中每句话能在检索上下文中找到支撑的比例（忠实度）"
+        },
+        {
+          "name": "answer_relevancy",
+          "value": 0.6108,
+          "group": "generation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.5389,
+          "ci_high": 0.7263,
+          "description": "答案与问题的语义贴合度（问题词覆盖 + 问题类型是否被回应 + 信息量）"
+        },
+        {
+          "name": "answer_completeness",
+          "value": 0.8,
+          "group": "generation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.4,
+          "ci_high": 1.0,
+          "description": "参考答案要点/关键词在答案中的覆盖率（完整性）"
+        },
+        {
+          "name": "hallucination_rate",
+          "value": 0.0,
+          "group": "generation",
+          "scope": "case",
+          "direction": "lower",
+          "n": 5,
+          "ci_low": 0.0,
+          "ci_high": 0.0,
+          "description": "答案中无法被上下文支撑的句子占比（幻觉率）"
+        },
+        {
+          "name": "citation_accuracy",
+          "value": 1.0,
+          "group": "citation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "引用是否指向真正支撑该句的片段（引用准确率）"
+        },
+        {
+          "name": "citation_coverage",
+          "value": 1.0,
+          "group": "citation",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "有事实性断言的句子中带引用的比例（引用覆盖率）"
+        },
+        {
+          "name": "refusal_appropriateness",
+          "value": 1.0,
+          "group": "safety",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 1.0,
+          "ci_high": 1.0,
+          "description": "该拒答时是否拒答、该作答时是否作答（拒答恰当性）"
+        },
+        {
+          "name": "judge_overall",
+          "value": 0.8004,
+          "group": "judge",
+          "scope": "case",
+          "direction": "higher",
+          "n": 5,
+          "ci_low": 0.7161,
+          "ci_high": 0.8915,
+          "description": "Judge 四个维度的均值，作为综合主观质量分"
+        },
+        {
+          "name": "latency_p50",
+          "value": 3.9749,
+          "group": "performance",
+          "scope": "aggregate",
+          "direction": "lower",
+          "n": 5,
+          "ci_low": 3.5554,
+          "ci_high": 4.7935,
+          "description": "端到端延迟中位数（毫秒）"
+        }
+      ],
+      "n_cases": 5
+    }
+  ],
+  "comparisons": [
+    {
+      "left": {
+        "run_id": "20261030-225856-top3-24e8ac",
+        "variant": "top3",
+        "name": "unit-ab::top3"
+      },
+      "right": {
+        "run_id": "20261030-225856-top6-7d1b52",
+        "variant": "top6",
+        "name": "unit-ab::top6"
+      },
+      "n_cases": 5,
+      "deltas": [
+        {
+          "metric": "answer_completeness",
+          "left": 0.8,
+          "right": 0.8,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "answer_relevancy",
+          "left": 0.6108,
+          "right": 0.6108,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "citation_accuracy",
+          "left": 1.0,
+          "right": 1.0,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "citation_coverage",
+          "left": 1.0,
+          "right": 1.0,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "context_recall",
+          "left": 0.8549,
+          "right": 0.9345,
+          "delta": 0.0796,
+          "relative": 0.0931,
+          "p_value": 0.082,
+          "significant": false,
+          "effect_size": 0.682,
+          "better": "right",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "faithfulness",
+          "left": 1.0,
+          "right": 1.0,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "hallucination_rate",
+          "left": 0.0,
+          "right": 0.0,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "lower",
+          "n": 5
+        },
+        {
+          "metric": "hit_rate",
+          "left": 0.8,
+          "right": 1.0,
+          "delta": 0.2,
+          "relative": 0.25,
+          "p_value": 0.576,
+          "significant": false,
+          "effect_size": 0.632,
+          "better": "right",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "judge_overall",
+          "left": 0.8004,
+          "right": 0.8004,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "precision_at_k",
+          "left": 0.3333,
+          "right": 0.2667,
+          "delta": -0.0666,
+          "relative": -0.1999,
+          "p_value": 0.604,
+          "significant": false,
+          "effect_size": -0.338,
+          "better": "left",
+          "direction": "higher",
+          "n": 5
+        },
+        {
+          "metric": "refusal_appropriateness",
+          "left": 1.0,
+          "right": 1.0,
+          "delta": 0.0,
+          "relative": 0.0,
+          "p_value": 1.0,
+          "significant": false,
+          "effect_size": 0.0,
+          "better": "tie",
+          "direction": "higher",
+          "n": 5
+        }
+      ],
+      "improved": [],
+      "degraded": [],
+      "case_diffs": [
+        {
+          "case_id": "core-002",
+          "left": 0.6295,
+          "right": 0.6971,
+          "delta": 0.0676
+        },
+        {
+          "case_id": "core-001",
+          "left": 0.8785,
+          "right": 0.8878,
+          "delta": 0.0093
+        },
+        {
+          "case_id": "core-004",
+          "left": 0.9057,
+          "right": 0.9084,
+          "delta": 0.0026
+        },
+        {
+          "case_id": "core-003",
+          "left": 0.8924,
+          "right": 0.8924,
+          "delta": 0.0
+        },
+        {
+          "case_id": "core-005",
+          "left": 0.9596,
+          "right": 0.9596,
+          "delta": 0.0
+        }
+      ],
+      "composite": {
+        "left": 0.8832,
+        "right": 0.9182
+      },
+      "variant": "top6"
+    }
+  ],
+  "summary": {
+    "winner": "top6",
+    "ranking": [
+      {
+        "variant": "top6",
+        "description": "",
+        "composite": 0.9182,
+        "mode": "offline",
+        "duration_s": 0.09,
+        "headline": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.6108,
+          "context_recall": 0.9345,
+          "hallucination_rate": 0.0,
+          "citation_accuracy": 1.0
+        },
+        "n_cases": 5,
+        "overrides": {
+          "retrieve": {
+            "top_k": 6,
+            "candidate_k": 12
+          }
+        },
+        "run_id": "20261030-225856-top6-7d1b52"
+      },
+      {
+        "variant": "top3",
+        "description": "",
+        "composite": 0.8832,
+        "mode": "offline",
+        "duration_s": 0.06,
+        "headline": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.6108,
+          "context_recall": 0.8549,
+          "hallucination_rate": 0.0,
+          "citation_accuracy": 1.0
+        },
+        "n_cases": 5,
+        "overrides": {
+          "retrieve": {
+            "top_k": 3,
+            "candidate_k": 6
+          }
+        },
+        "run_id": "20261030-225856-top3-24e8ac"
+      }
+    ],
+    "rows": [
+      {
+        "variant": "top3",
+        "description": "",
+        "composite": 0.8832,
+        "mode": "offline",
+        "duration_s": 0.06,
+        "headline": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.6108,
+          "context_recall": 0.8549,
+          "hallucination_rate": 0.0,
+          "citation_accuracy": 1.0
+        },
+        "n_cases": 5,
+        "overrides": {
+          "retrieve": {
+            "top_k": 3,
+            "candidate_k": 6
+          }
+        },
+        "run_id": "20261030-225856-top3-24e8ac"
+      },
+      {
+        "variant": "top6",
+        "description": "",
+        "composite": 0.9182,
+        "mode": "offline",
+        "duration_s": 0.09,
+        "headline": {
+          "faithfulness": 1.0,
+          "answer_relevancy": 0.6108,
+          "context_recall": 0.9345,
+          "hallucination_rate": 0.0,
+          "citation_accuracy": 1.0
+        },
+        "n_cases": 5,
+        "overrides": {
+          "retrieve": {
+            "top_k": 6,
+            "candidate_k": 12
+          }
+        },
+        "run_id": "20261030-225856-top6-7d1b52"
+      }
+    ],
+    "significant_improvements": 0,
+    "significant_regressions": 0,
+    "baseline": "top3",
+    "n_variants": 2,
+    "split_labels": {
+      "core": "核心回归集",
+      "edge": "边缘场景集",
+      "adversarial": "对抗集"
+    }
+  },
+  "report_path": ""
+}

@@ -1,0 +1,78 @@
+{
+  "signature": "ad23a003eb5aa7a4",
+  "chunks": 23,
+  "dim": 384,
+  "embedder": {
+    "provider": "hashing",
+    "name": "hashing-char2_3",
+    "dim": 384,
+    "mode": "offline",
+    "cache_hits": 0,
+    "cache_misses": 23,
+    "cached": true
+  },
+  "store": {
+    "provider": "memory",
+    "name": "memory-cosine",
+    "chunks": 23,
+    "dim": 384,
+    "persist_dir": "artifacts\\index\\ad23a003eb5aa7a4"
+  },
+  "chunker": "fixed",
+  "documents": [
+    {
+      "doc_id": "32ac1170b1f5",
+      "title": "云雀协作 产品概览",
+      "source": "D:/AI应用/data/corpus/01-product-overview.md",
+      "chars": 768,
+      "meta": {
+        "suffix": ".md"
+      }
+    },
+    {
+      "doc_id": "0886d99b900d",
+      "title": "云雀协作 套餐与计费说明",
+      "source": "D:/AI应用/data/corpus/02-pricing.md",
+      "chars": 667,
+      "meta": {
+        "suffix": ".md"
+      }
+    },
+    {
+      "doc_id": "54ac43fa96f0",
+      "title": "云雀协作 开放 API 接入指南",
+      "source": "D:/AI应用/data/corpus/03-api-guide.md",
+      "chars": 1016,
+      "meta": {
+        "suffix": ".md"
+      }
+    },
+    {
+      "doc_id": "afc56eb2890d",
+      "title": "云雀协作 安全与合规白皮书（摘要）",
+      "source": "D:/AI应用/data/corpus/04-security-compliance.md",
+      "chars": 721,
+      "meta": {
+        "suffix": ".md"
+      }
+    },
+    {
+      "doc_id": "393d9a8dab25",
+      "title": "云雀协作 常见问题（FAQ）",
+      "source": "D:/AI应用/data/corpus/05-faq.md",
+      "chars": 953,
+      "meta": {
+        "suffix": ".md"
+      }
+    },
+    {
+      "doc_id": "6ac7bf6ac5cc",
+      "title": "云雀协作 故障排查手册",
+      "source": "D:/AI应用/data/corpus/06-troubleshooting.md",
+      "chars": 922,
+      "meta": {
+        "suffix": ".md"
+      }
+    }
+  ]
+}

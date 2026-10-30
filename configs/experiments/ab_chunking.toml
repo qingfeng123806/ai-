@@ -1,0 +1,27 @@
+[experiment]
+name = "ab-chunking"
+description = "对比固定窗口切片、递归语义边界切片与标题感知切片对检索与生成质量的影响"
+dataset = "data/testsets/suite.jsonl"
+baseline = "configs/baseline.toml"
+seed = 42
+repeat = 1
+
+[[experiment.variants]]
+name = "recursive-420"
+description = "基线：递归切片 420 字，重叠 60"
+
+[[experiment.variants]]
+name = "fixed-256"
+description = "固定窗口 256 字，重叠 40（更细粒度）"
+[experiment.variants.overrides.ingest]
+chunker = "fixed"
+chunk_size = 256
+chunk_overlap = 40
+
+[[experiment.variants]]
+name = "heading-600"
+description = "标题感知切片 600 字，保留章节结构"
+[experiment.variants.overrides.ingest]
+chunker = "heading"
+chunk_size = 600
+chunk_overlap = 80

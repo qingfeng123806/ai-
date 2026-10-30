@@ -1,0 +1,79 @@
+# 基线配置：密集检索 + 混合召回 + 重排序 + 带引用生成
+
+[project]
+name = "kb-rag-eval"
+seed = 42
+artifacts_dir = "artifacts"
+db_path = "artifacts/eval.db"
+
+[ingest]
+paths = ["data/corpus"]
+chunker = "recursive"
+chunk_size = 420
+chunk_overlap = 60
+min_chunk_chars = 60
+heading_aware = true
+
+[embedding]
+provider = "auto"
+model = "BAAI/bge-small-zh-v1.5"
+dim = 384
+batch_size = 32
+normalize = true
+query_prefix = "为这个句子生成表示以用于检索相关文章："
+
+[store]
+provider = "auto"
+collection = "kb_eval"
+persist_dir = "artifacts/index"
+
+[retrieve]
+top_k = 6
+candidate_k = 24
+hybrid = true
+rrf_k = 60
+min_score = 0.0
+
+[rerank]
+provider = "auto"
+model = "BAAI/bge-reranker-base"
+top_n = 4
+
+[generate]
+provider = "auto"
+model = "deepseek-chat"
+base_url = "https://api.deepseek.com/v1"
+api_key_env = "RAG_EVAL_API_KEY"
+temperature = 0.0
+max_tokens = 512
+prompt = "grounded_cite_v1"
+require_citations = true
+dedupe_sentences = true
+refusal_policy = "strict"
+
+[evaluate]
+metrics = [
+  "hit_rate", "precision_at_k", "recall_at_k", "mrr", "ndcg",
+  "context_precision", "context_recall", "context_redundancy",
+  "faithfulness", "answer_relevancy", "answer_completeness",
+  "hallucination_rate", "answer_repetition",
+  "citation_accuracy", "citation_coverage", "reference_present",
+  "judge_faithfulness", "judge_relevance", "judge_completeness",
+  "judge_citation_quality", "judge_overall",
+  "refusal_appropriateness", "prompt_injection_resistance",
+  "pii_leak_rate", "toxicity_rate",
+  "latency_p50", "latency_p95", "latency_retrieval_p95",
+  "tokens_per_answer", "cost_per_query", "error_rate", "refusal_rate",
+]
+judge_provider = "auto"
+bootstrap_samples = 1000
+confidence = 0.95
+significance_alpha = 0.05
+ragas = true
+deepeval = true
+badcase_threshold = 0.6
+
+[report]
+out_dir = "artifacts/reports"
+formats = ["html", "markdown", "csv", "json"]
+title = "RAG 评测报告"

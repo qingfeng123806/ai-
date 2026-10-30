@@ -1,0 +1,82 @@
+# kb-rag-eval 本地编排：API + 看板。
+# 用法（在仓库根目录执行）：
+#   cp .env.example .env        # 填入 RAG_EVAL_API_KEY（留空即离线模式）
+#   docker compose -f docker/docker-compose.yml up -d --build
+#   curl http://127.0.0.1:8000/api/health
+#
+# 注意：构建上下文为仓库根目录（..），因此 Dockerfile 能 COPY rag_eval/、configs/、data/。
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: kb-rag-eval:1.0.0
+    container_name: kb-rag-eval-api
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      # 容器内以可写目录作为产物根，便于挂载持久化
+      PYTHONUNBUFFERED: "1"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../data:/app/data
+      - ../artifacts:/app/artifacts
+      - ../configs:/app/configs
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3).status == 200 else 1)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # --- 可选：Chroma 独立服务 ---------------------------------------------
+  # 启用后把 configs/*.toml 的 [store] provider 设为 "chroma"，
+  # 并把 store.persist_dir 指向容器可访问的路径（或改用本地持久化模式）。
+  # chromadb:
+  #   image: chromadb/chroma:0.5.5
+  #   container_name: kb-rag-eval-chroma
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8001:8000"
+  #   volumes:
+  #     - ../artifacts/chroma:/chroma/chroma
+  #   environment:
+  #     IS_PERSISTENT: "TRUE"
+  #     ANONYMIZED_TELEMETRY: "FALSE"
+
+  # --- 可选：Milvus 独立服务 ---------------------------------------------
+  # 启用后把 [store] provider 设为 "milvus"，并设置 store.milvus_uri。
+  # Milvus standalone 自带嵌入式 etcd 与本地存储，如用集群模式需另配 etcd / MinIO。
+  # milvus:
+  #   image: milvusdb/milvus:v2.4.13
+  #   container_name: kb-rag-eval-milvus
+  #   restart: unless-stopped
+  #   command: ["milvus", "run", "standalone"]
+  #   security_opt:
+  #     - seccomp:unconfined
+  #   environment:
+  #     ETCD_USE_EMBED: "true"
+  #     ETCD_DATA_DIR: /var/lib/milvus/etcd
+  #     COMMON_STORAGETYPE: local
+  #   ports:
+  #     - "19530:19530"   # gRPC
+  #     - "9091:9091"     # metrics / healthz
+  #   volumes:
+  #     - ../artifacts/milvus:/var/lib/milvus
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #     start_period: 90s
+
+# 说明：若需自定义网络或与既有 Milvus/Chroma 部署对接，请将上面注释的服务
+# 与 api 放入同一 network，并在配置中使用服务名作为主机名
+# （例如 store.milvus_uri = "http://milvus:19530"）。
