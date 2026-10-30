@@ -1,0 +1,10 @@
+# 核心链路仅依赖标准库（Python 3.11+）：
+#   文档加载 / 4 种切片 / 哈希向量化 / 内存向量库 / BM25 + 稠密混合检索 /
+#   词法重排 / 离线抽取式生成 / 全部指标 / SQLite 持久化 / 报告导出
+# 都可在「零第三方依赖 + 无网络」环境中运行，可直接用于 CI。
+#
+# 下面两项只服务可选组件：
+#   - FastAPI 应用（rag_eval/fastapi_app.py）与 ASGI 部署（uvicorn）
+#   - 未安装时 `python -m rag_eval serve` 仍可用标准库 HTTP 服务正常提供 API 与看板
+fastapi>=0.110
+uvicorn[standard]>=0.29

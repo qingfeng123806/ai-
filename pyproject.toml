@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kb-rag-eval"
+version = "1.0.0"
+description = "面向知识库问答的 RAG 自动化评测系统"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "kb-rag-eval contributors" }]
+keywords = ["rag", "evaluation", "retrieval", "llm", "benchmark", "zh"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Indexing",
+]
+# 核心链路（加载 / 切片 / 哈希向量 / 内存检索 / BM25 / 词法重排 /
+# 离线抽取式生成 / 全部指标 / SQLite / 报告）只依赖标准库，
+# 因此运行时依赖为空；可选能力见 [project.optional-dependencies]。
+dependencies = []
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn[standard]>=0.29"]
+vectors = ["chromadb>=0.5.0", "pymilvus>=2.4.0", "sentence-transformers>=2.7.0"]
+loaders = ["pypdf>=4.0.0", "python-docx>=1.1.0"]
+judges = ["ragas>=0.1.0", "deepeval>=1.0.0", "langchain-openai>=0.1.0", "datasets>=2.18.0"]
+reports = ["openpyxl>=3.1.0"]
+config = ["PyYAML>=6.0"]
+test = ["pytest>=8.0.0"]
+
+[project.scripts]
+rag-eval = "rag_eval.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["rag_eval*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = ["artifacts", ".venv", ".scratch"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-q"
