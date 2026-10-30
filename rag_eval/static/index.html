@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RAG 自动化评测看板</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%235aa9ff'/><text x='16' y='23' font-size='19' text-anchor='middle' fill='%23081119' font-family='sans-serif' font-weight='bold'>R</text></svg>" />
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <div class="logo">R</div>
+        <div>
+          <strong>RAG 评测看板</strong>
+          <small>kb-rag-eval</small>
+        </div>
+      </div>
+      <nav>
+        <a href="#/overview"><span class="dot"></span>评测总览</a>
+        <a href="#/runs"><span class="dot"></span>运行记录</a>
+        <a href="#/compare"><span class="dot"></span>A/B 对比</a>
+        <a href="#/experiments"><span class="dot"></span>实验管理</a>
+        <a href="#/datasets"><span class="dot"></span>用例与指标</a>
+      </nav>
+      <div class="side-foot" id="side-foot">
+        <div>检索 · 生成 · 引用 · 安全 · 性能</div>
+        <div style="margin-top:6px">数据存储：<span class="k">SQLite</span></div>
+      </div>
+    </aside>
+    <main id="view"></main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
